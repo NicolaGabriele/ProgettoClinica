@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    username: 'nicola'
+    password: ''
+    url: jdbc:mysql://localhost:3306/clinicadb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
