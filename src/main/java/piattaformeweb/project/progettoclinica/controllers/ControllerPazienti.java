@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import piattaformeweb.project.progettoclinica.entities.Paziente;
 import piattaformeweb.project.progettoclinica.exceptions.PazienteGiaEsistenteException;
@@ -30,6 +31,7 @@ public class ControllerPazienti {
     }
 
 
+    @PreAuthorize("hasAuthority('admin')")
    @GetMapping("/paziente")
    public @ResponseBody ResponseEntity getByCodiceFiscale(@RequestParam String cf){
         List<Paziente> l = pazienteService.getPaziente(cf);
@@ -39,6 +41,7 @@ public class ControllerPazienti {
             return new ResponseEntity<>(l.get(0),HttpStatus.OK);
    }
 
+   @PreAuthorize("hasAuthority('user')")
    @GetMapping("/pazienti")
    public @ResponseBody ResponseEntity search(@RequestParam @Nullable String nome, @RequestParam @Nullable String cognome,
                                               @RequestParam @Nullable Date data){

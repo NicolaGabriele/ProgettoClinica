@@ -10,10 +10,7 @@ import piattaformeweb.project.progettoclinica.entities.Medico;
 import piattaformeweb.project.progettoclinica.entities.Paziente;
 import piattaformeweb.project.progettoclinica.entities.Prenotazione;
 import piattaformeweb.project.progettoclinica.entities.Prestazione;
-import piattaformeweb.project.progettoclinica.exceptions.DataNonValidaException;
-import piattaformeweb.project.progettoclinica.exceptions.MedicoNonValidoException;
-import piattaformeweb.project.progettoclinica.exceptions.PrenotazioneGiaEsistenteException;
-import piattaformeweb.project.progettoclinica.exceptions.PrestazioneNonErogabileException;
+import piattaformeweb.project.progettoclinica.exceptions.*;
 import piattaformeweb.project.progettoclinica.services.PrenotazioniService;
 
 import java.sql.Date;
@@ -38,6 +35,8 @@ public class ControllerPrenotazioni {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "il medico non è presente in organico");
         }catch(PrenotazioneGiaEsistenteException e){
             throw new ResponseStatusException( HttpStatus.BAD_REQUEST,"prenotazione già presente");
+        }catch(PostiFinitiException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"posti terminati per la data inserita");
         }
         return new ResponseEntity<>(nuova, HttpStatus.OK);
     }

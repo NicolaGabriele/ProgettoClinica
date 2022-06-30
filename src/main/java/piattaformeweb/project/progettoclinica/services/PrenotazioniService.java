@@ -7,10 +7,7 @@ import piattaformeweb.project.progettoclinica.entities.Medico;
 import piattaformeweb.project.progettoclinica.entities.Paziente;
 import piattaformeweb.project.progettoclinica.entities.Prenotazione;
 import piattaformeweb.project.progettoclinica.entities.Prestazione;
-import piattaformeweb.project.progettoclinica.exceptions.DataNonValidaException;
-import piattaformeweb.project.progettoclinica.exceptions.MedicoNonValidoException;
-import piattaformeweb.project.progettoclinica.exceptions.PrenotazioneGiaEsistenteException;
-import piattaformeweb.project.progettoclinica.exceptions.PrestazioneNonErogabileException;
+import piattaformeweb.project.progettoclinica.exceptions.*;
 import piattaformeweb.project.progettoclinica.repositories.RepositoryMedici;
 import piattaformeweb.project.progettoclinica.repositories.RepositoryPrenotazioni;
 import piattaformeweb.project.progettoclinica.repositories.RepositoryPrestazioni;
@@ -49,6 +46,9 @@ public class PrenotazioniService {
         //Controllo che la prenotazione non sia gia stata effettuata
         if(repositoryPrenotazioni.advacedSearch(paziente,prestazione,medico,data).size()>0)
             throw new PrenotazioneGiaEsistenteException();
+
+        if(repositoryPrenotazioni.advacedSearch(null,prestazione,null,data).size() == repositoryPrestazioni.getReferenceById(prestazione.getId()).getNPosti() )
+            throw new PostiFinitiException();
         Prenotazione p = new Prenotazione();
         p.setPaziente(paziente);
         p.setData(data);
