@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import piattaformeweb.project.progettoclinica.entities.Medico;
@@ -22,6 +23,7 @@ public class ControllerPrenotazioni {
     @Autowired
     private PrenotazioniService prenotazioniService;
 
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/addPrenotazione")
     public @ResponseBody ResponseEntity addPrenotazione(@RequestBody  Prenotazione p){
         Prenotazione nuova;
@@ -41,6 +43,7 @@ public class ControllerPrenotazioni {
         return new ResponseEntity<>(nuova, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/prenotazione")
     public @ResponseBody ResponseEntity getById(@RequestParam int id){
         List<Prenotazione> l = prenotazioniService.ricercaPerId(id);
@@ -48,6 +51,7 @@ public class ControllerPrenotazioni {
                 new ResponseEntity<>(l.get(0),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/prenotazioni")
     public @ResponseBody ResponseEntity advancedSearch(@Nullable @RequestBody Prenotazione p){
         List<Prenotazione> l = prenotazioniService.ricercaAvanzata(p.getPaziente(),p.getPrestazione(), p.getMedico()

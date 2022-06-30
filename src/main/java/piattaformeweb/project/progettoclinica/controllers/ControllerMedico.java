@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import piattaformeweb.project.progettoclinica.entities.Medico;
 import piattaformeweb.project.progettoclinica.exceptions.MatricolaNonValidaException;
@@ -18,6 +19,8 @@ public class ControllerMedico {
 
     @Autowired
     private MedicoService medicoService;
+
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/addMedico")
     public @ResponseBody ResponseEntity addMedico(@RequestBody Medico m){
         Medico res;
@@ -31,6 +34,7 @@ public class ControllerMedico {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/medici")
     public @ResponseBody ResponseEntity getMedici(@Nullable @RequestParam String nome, @Nullable @RequestParam String cognome){
         List<Medico> l = medicoService.ricercaAvanzata(nome,cognome);
@@ -38,6 +42,7 @@ public class ControllerMedico {
                 new ResponseEntity<>(l,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/medico")
     public @ResponseBody ResponseEntity getByMatricola(@NotNull @RequestParam String matricola){
         List<Medico> l = medicoService.ricercaPerMatricola(matricola);

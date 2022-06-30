@@ -19,6 +19,7 @@ public class ControllerPazienti {
     @Autowired
     private PazienteService pazienteService;
 
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/addPaziente")
     public @ResponseBody ResponseEntity addPaziente( @RequestBody Paziente p){
         //Paziente p;
@@ -31,7 +32,7 @@ public class ControllerPazienti {
     }
 
 
-    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('user')")
    @GetMapping("/paziente")
    public @ResponseBody ResponseEntity getByCodiceFiscale(@RequestParam String cf){
         List<Paziente> l = pazienteService.getPaziente(cf);

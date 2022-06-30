@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import piattaformeweb.project.progettoclinica.entities.Prestazione;
 import piattaformeweb.project.progettoclinica.exceptions.PrestazioneNonValidaException;
@@ -18,6 +19,7 @@ public class ControllerPrestazioni {
     @Autowired
     private PrestazioniService prestazioniService;
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/addPrestazione")
     public @ResponseBody ResponseEntity addPrestazione(@RequestBody Prestazione p){
         Prestazione p1;
@@ -29,6 +31,7 @@ public class ControllerPrestazioni {
         return new ResponseEntity<>(p1, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/prestazioni")
     public @ResponseBody ResponseEntity ricerca(@Nullable @RequestParam String descrizione, @Nullable @RequestParam Double importo){
         List<Prestazione> l = prestazioniService.ricercaAvanzata(descrizione,importo);
@@ -36,6 +39,7 @@ public class ControllerPrestazioni {
                 new ResponseEntity<>(l,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/prestazione")
     public @ResponseBody ResponseEntity getById(@RequestParam @NotNull int id){
         List<Prestazione> l = prestazioniService.ricercaPerId(id);
