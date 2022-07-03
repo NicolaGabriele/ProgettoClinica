@@ -47,16 +47,27 @@ public class ControllerPrenotazioni {
     @GetMapping("/prenotazione")
     public @ResponseBody ResponseEntity getById(@RequestParam int id){
         List<Prenotazione> l = prenotazioniService.ricercaPerId(id);
-        return (l.isEmpty())?new ResponseEntity<>("nessun risultatp",HttpStatus.OK):
+        return (l==null)?new ResponseEntity<>("nessun risultato",HttpStatus.OK):
                 new ResponseEntity<>(l.get(0),HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/prenotazioni")
+    @PostMapping("/prenotazioni")
     public @ResponseBody ResponseEntity advancedSearch(@Nullable @RequestBody Prenotazione p){
         List<Prenotazione> l = prenotazioniService.ricercaAvanzata(p.getPaziente(),p.getPrestazione(), p.getMedico()
                 ,p.getData());
         return (l.isEmpty())?new ResponseEntity<>("nessun risultato",HttpStatus.OK):
                 new ResponseEntity<>(l,HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/prenotazioneCf")
+    public @ResponseBody ResponseEntity ricercaPerCodiceFiscale(@RequestParam String cf){
+        Paziente p = new Paziente();
+        p.setCodiceFiscale(cf);
+        List<Prenotazione> l = prenotazioniService.ricercaPerPaziente(p);
+        return (l.size()>0)?
+             new ResponseEntity(l, HttpStatus.OK):
+             new ResponseEntity("nessun risultato", HttpStatus.OK);
     }
 }

@@ -28,8 +28,8 @@ public class Medico {
     @Column(name = "COGNOME", length = 30)
     private String cognome;
 
-
+    /*
     @OneToMany(targetEntity = Prenotazione.class, mappedBy = "medico", cascade = CascadeType.MERGE)
-    private Set<Prenotazione> prenotazioni;
+    private Set<Prenotazione> prenotazioni;*/
 
 }

@@ -64,6 +64,7 @@ public class PrenotazioniService {
         return repositoryPrenotazioni.findByPaziente(p);
     }
 
+
     @Transactional(readOnly = true)
     public List<Prenotazione> ricercaPerMedico(Medico m){
         return repositoryPrenotazioni.findByMedico(m);

@@ -33,7 +33,8 @@ public class Prestazione {
     @Column(name = "IMPORTO")
     private double importo;
 
+    /*
     @OneToMany(targetEntity = Prenotazione.class, mappedBy = "prestazione",cascade = CascadeType.ALL)
-    private Set<Prenotazione> prenotazioni;
+    private Set<Prenotazione> prenotazioni;*/
 
 }

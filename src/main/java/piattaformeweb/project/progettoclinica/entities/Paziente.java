@@ -33,6 +33,7 @@ public class Paziente {
     @Column(name = "DATA_NASCITA", nullable = true)
     Date dataNascita;
 
+    /*
     @OneToMany(targetEntity = Prenotazione.class, mappedBy = "paziente", cascade = CascadeType.ALL)
-    private Set<Prenotazione> prenotazioni;
+    private Set<Prenotazione> prenotazioni;*/
 }
