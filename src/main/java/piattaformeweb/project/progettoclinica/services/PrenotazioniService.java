@@ -59,6 +59,10 @@ public class PrenotazioniService {
         return p;
     }
 
+    @Transactional
+    public void rimuoviPrenotazione(int id){
+        repositoryPrenotazioni.deleteById(id);
+    }
     @Transactional(readOnly = true)
     public List<Prenotazione> ricercaPerPaziente(Paziente p){
         return repositoryPrenotazioni.findByPaziente(p);

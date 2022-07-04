@@ -1,5 +1,6 @@
 package piattaformeweb.project.progettoclinica.controllers;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,12 @@ public class ControllerPrenotazioni {
                 new ResponseEntity<>(l.get(0),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/delete")
+    public @ResponseBody ResponseEntity rimuoviPrenotazione(@NotNull@RequestParam int id){
+        prenotazioniService.rimuoviPrenotazione(id);
+        return new ResponseEntity("rimozione effettutata", HttpStatus.OK);
+    }
     @PreAuthorize("hasAuthority('user')")
     @PostMapping("/prenotazioni")
     public @ResponseBody ResponseEntity advancedSearch(@Nullable @RequestBody Prenotazione p){
